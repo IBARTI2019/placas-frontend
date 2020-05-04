@@ -19,6 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
 import { SpinnerComponent } from './shared/spinner.component';
 import { LoginComponent } from './layouts/login/login.component';
+import { VerifyComponent } from './layouts/modals/verify/verify.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { LoginComponent } from './layouts/login/login.component';
     AppHeaderComponent,
     SpinnerComponent,
     AppSidebarComponent,
-    LoginComponent
+    LoginComponent,
+    VerifyComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +42,9 @@ import { LoginComponent } from './layouts/login/login.component';
     HttpClientModule,
     SharedModule,
     RouterModule.forRoot(AppRoutes)
+  ],
+  entryComponents: [
+    VerifyComponent
   ],
   providers: [
     {

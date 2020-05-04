@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { GeneralForm } from '../../interfaces/general.interface';
 import { FormGeneralService } from '../../service/form-general.service';
+import { AuthenticateModel } from '../../interfaces/login.interface';
+import { AuthenticateService } from '../../service/authenticate.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,38 +11,37 @@ import { FormGeneralService } from '../../service/form-general.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  dataResps = {};
+  dataResps: AuthenticateModel;
   dataN1: GeneralForm = {
     data: {},
-    fields: ['arr1', 'arr2', 'arr3'],
-    descriptions: ['arr1', 'arr2', 'arr3'],
-    types: ['text', 'email', 'text'],
-    requires: [true, true, true]
-  };
-  dataN2: GeneralForm = {
-    data: {},
-    fields: ['arr4', 'arr5', 'arr6'],
-    descriptions: ['arr4', 'arr5', 'arr6'],
-    types: ['text', 'email', 'text'],
-    requires: [true, true, true]
+    fields: ['email', 'password'],
+    descriptions: ['Email', 'Contraseña'],
+    types: ['email', 'password'],
+    requires: [true, true]
   };
 
-  constructor(private formGeneralService: FormGeneralService) { }
+  constructor(
+    private formGeneralService: FormGeneralService,
+    private authenticateService: AuthenticateService,
+    private router: Router
+  ) { }
 
-  ngOnInit(): void {
-    console.log("Yo soy tu padre");
+  ngOnInit() {
   }
 
-  submit() {
+  submit(): void {
     this.formGeneralService.activateChilds();
     const valid = this.formGeneralService.getChilds().reduce((val, valC) => val && valC , true);
-    if(valid){
-      console.log('Formulario lleno');
-      console.log(this.dataResps);
+    if (!valid) {
+      return;
     }
+    this.authenticateService.authenticate(this.dataResps).subscribe((message: object) => {
+      console.log('Se hizo el submit, redirección...');
+    });
+    this.router.navigateByUrl('/home');
   }
 
-  respData(dataR: {}) {
+  respData(dataR: object) {
     Object.assign(this.dataResps, dataR['data']);
   }
 

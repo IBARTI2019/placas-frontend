@@ -1,0 +1,10 @@
+<div>
+  <form [formGroup] = "formG">
+    <mat-form-field *ngFor="let field of dataNe.fields; let i=index">
+      <mat-label>{{dataNe.descriptions[i]}}</mat-label>
+      <input matInput type="{{dataNe['types'][i]}}" [placeholder]="dataNe.descriptions[i]" [formControlName] = "field">
+      <mat-error *ngIf="dataNe.types[i]==='email'">Correo Invalido</mat-error>
+      <mat-error *ngIf="dataNe.requires[i] && formG.controls[field].getError('required')">Es requerido</mat-error>
+    </mat-form-field>
+  </form>
+</div>

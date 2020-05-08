@@ -1,4 +1,4 @@
-
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -14,9 +14,12 @@ import { AppHeaderComponent } from './layouts/full/header/header.component';
 import { AppSidebarComponent } from './layouts/full/sidebar/sidebar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DemoMaterialModule } from './demo-material-module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from './shared/shared.module';
 import { SpinnerComponent } from './shared/spinner.component';
+import { LoginComponent } from './layouts/login/login.component';
+import { VerifyComponent } from './layouts/modals/verify/verify.component';
 
 @NgModule({
   declarations: [
@@ -24,17 +27,24 @@ import { SpinnerComponent } from './shared/spinner.component';
     FullComponent,
     AppHeaderComponent,
     SpinnerComponent,
-    AppSidebarComponent
+    AppSidebarComponent,
+    LoginComponent,
+    VerifyComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     DemoMaterialModule,
     FormsModule,
+    ReactiveFormsModule,
     FlexLayoutModule,
+    CommonModule,
     HttpClientModule,
     SharedModule,
     RouterModule.forRoot(AppRoutes)
+  ],
+  entryComponents: [
+    VerifyComponent
   ],
   providers: [
     {

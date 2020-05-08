@@ -1,15 +1,25 @@
 import { Routes } from '@angular/router';
 
 import { FullComponent } from './layouts/full/full.component';
+import { LoginComponent } from './layouts/login/login.component';
 
 export const AppRoutes: Routes = [
   {
     path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'home',
     component: FullComponent,
     children: [
       {
         path: '',
-        redirectTo: '/dashboard',
+        redirectTo: 'dashboard',
         pathMatch: 'full'
       },
       {
@@ -22,5 +32,9 @@ export const AppRoutes: Routes = [
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
       }
     ]
+  },
+  {
+    path: '**',
+    redirectTo: 'home'
   }
 ];

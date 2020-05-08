@@ -1,0 +1,12 @@
+<div fxLayout="row" fxLayoutAlign="space-between">
+  <h2 mat-dialog-title>Ingrese código de verificación</h2>
+  <button mat-icon-button (click)="onNoClick()" color="warn">
+    <mat-icon>closed</mat-icon>
+  </button>
+</div>
+<div mat-dialog-content>
+  <app-form-general [dataNe]="dataToForm" (onResp)="respData($event)"></app-form-general>
+</div>
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
+  <button mat-raised-button (click)="submit()" color="warn">Enviar</button>
+</div>

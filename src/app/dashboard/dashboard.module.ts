@@ -6,13 +6,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutes } from './dashboard.routing';
 import { ChartistModule } from 'ng-chartist';
-
+import { SharedModule } from '../shared/shared.module';
 @NgModule({
   imports: [
     CommonModule,
     DemoMaterialModule,
     FlexLayoutModule,
     ChartistModule,
+    SharedModule,
     RouterModule.forChild(DashboardRoutes)
   ],
   declarations: [DashboardComponent]

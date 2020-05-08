@@ -2,6 +2,7 @@ import { Component, AfterViewInit } from '@angular/core';
 
 import * as Chartist from 'chartist';
 import { ChartType, ChartEvent } from 'ng-chartist';
+import { GeneralForm } from '../interfaces/general.interface';
 declare var require: any;
 
 const data: any = require('./data.json');
@@ -20,6 +21,13 @@ export interface Chart {
 	styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements AfterViewInit {
+  dataN: GeneralForm = {
+    data: {},
+    fields: ['arr1', 'arr2', 'arr3'],
+    descriptions: ['arr1', 'arr2', 'arr3'],
+    types: ['text', 'email', 'text'],
+    requires: [true, true, true]
+  };
 	ngAfterViewInit() {}
 
 	// Barchart

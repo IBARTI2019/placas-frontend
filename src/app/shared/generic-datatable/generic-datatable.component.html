@@ -1,0 +1,159 @@
+<ng-template #defaultTextTemplate let-column="column" let-item="item" let-i="i">
+  <span *ngIf="!column.render">
+    {{getRealValue(item, column.attribute, column.shortUUID) || column.default || textDefault}}
+  </span>
+  <span *ngIf="column.render" [innerHTML]="column.render(item)"></span>
+</ng-template>
+
+<ng-template #defaultImgTemplate let-column="column" let-item="item" let-i="i">
+  <img alt="imagen" *ngIf="!column.routerLink && column.type === 'img'" height="50" width="50"
+    [src]="getRealValue(item, column.attribute) || column.default || imgDefault">
+</ng-template>
+
+<ng-template #defaultBoolTemplate let-column="column" let-item="item" let-i="i">
+  {{siNo(getRealValue(item, column.attribute) || column.default)}}
+</ng-template>
+
+<ng-template #defaultDateTemplate let-column="column" let-item="item" let-i="i">
+  {{getRealValue(item, column.attribute)| date: (column.dateFormat || defaultDateFormat)}}
+</ng-template>
+
+<ng-template #defaultJsonTemplate let-column="column" let-item="item" let-i="i">
+  <span *ngFor="let _item of getRealValue(item, column.attribute)|keyvalue">
+    <span *ngIf="_item.value"> <strong>{{_item.key|titlecase}}: </strong> {{_item.value}} <br /></span>
+  </span>
+</ng-template>
+
+<button *ngIf="btnRefresh" class="btn btn-sm float-right mr-md-4 {{ csv_config?'mt-5':'' }}" (click)="refresh()">
+  <i class="icon-refresh"></i>
+</button>
+<div class="dt-responsive">
+  <table id="{{_id}}" datatable [dtOptions]="dtOptions"
+    class="table table-striped table-hover mt-4 display dt-table" style="width:100%;">
+    <thead class="dt-thead">
+      <tr class="dt-titulos">
+        <th *ngIf="checkBoxColumn">
+          <input type="checkbox" name="cbColumn" [(ngModel)]="checkAllValue" (change)="checkAll($event)">
+        </th>
+        <th *ngFor="let column of validColumns(columns)" scope="col"
+          [innerText]="column.header || column.attribute.replace('_', ' ')|titlecase">
+        </th>
+      </tr>
+      <tr class="dt-filtros" *ngIf="!hideFilters">
+
+        <th class="dt-filtro" *ngFor="let column of columns; index as idx;">
+          <span class="dt-label">{{column.header}}</span>
+          <select *ngIf="column.disableFilter !== true && column.type==='bool'" [name]="'search-' + column.attribute"
+            class="form-control form-control-sm">
+            <option value="">Todos
+            </option>
+            <option value="true">SI</option>
+            <option value="false">NO</option>
+          </select>
+          <select *ngIf="column.disableFilter !== true && filters[idx]?.type === 'select'"
+            [name]="'search-' + column.attribute" class="form-control form-control-sm">
+            <option value="">Todos
+            </option>
+            <option *ngFor="let option of filters[idx].options"
+              [selected]="filters[idx].default == getRealValue(option, filters[idx].optionValueAttribute || defaultOptionValueAttribute)"
+              [value]="getRealValue(option, filters[idx].optionValueAttribute || defaultOptionValueAttribute)">
+              {{getRealValue(option, filters[idx].optionDisplayAttribute || defaultOptionDisplayAttribute)}}
+            </option>
+          </select>
+
+          <input
+            *ngIf="column.disableFilter !== true && (filters[idx]?.type === 'html' || !filters[idx]) && column.type !== 'bool'"
+            [type]="filters[idx]?.dataType || 'text'" [name]="'search-' + column.attribute"
+            class="form-control form-control-sm">
+
+          <div class="row"
+            *ngIf="column.disableFilter !== true && filters[idx]?.type === 'range' && filters[idx].dataType === 'number'">
+            <div class="col-6 range-col">
+              <input type="number" [name]="'search-'+column.attribute +'_range-min'"
+                class="form-control form-control-sm">
+            </div>
+            <div class="col-6 range-col">
+              <input type="number" [name]="'search-'+column.attribute +'_range-max'"
+                class="form-control  form-control-sm">
+            </div>
+          </div>
+
+          <div class="row"
+            *ngIf="column.disableFilter !== true && filters[idx]?.type === 'range' && filters[idx].dataType === 'date'">
+            <div class="col-6 range-col">
+              <input #dateMin type="text" [name]="'search-'+column.attribute +'_range-min'"
+                class="form-control form-control-sm" bsDatepicker
+                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', locale: 'es' }"
+                (bsValueChange)="dateChange($event, dateMin)">
+            </div>
+            <div class="col-6 range-col">
+              <input #dateMax type="text" [name]="'search-'+column.attribute +'_range-max'"
+                class="form-control form-control-sm" bsDatepicker
+                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' , locale: 'es'}"
+                (bsValueChange)="dateChange($event, dateMax)">
+            </div>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody class="dt-tbody" *ngIf="items?.length !== 0" >
+      <tr role="row" *ngFor="let item of items; index as i" [ngClass]="classRow?classRow(item):''">
+        <td *ngFor="let column of columns" [className]="column.className">
+          <span class="dt-label">{{column.header}}</span>
+          <input type="checkbox"
+            *ngIf="column.visible !== false && column.attribute === 'cbColumn' && (showCheck?showCheck(item):true)"
+            [(ngModel)]="checkBoxValue[getRealValue(item, checkColumnAttribute)]" (change)="cbColumnChange($event, i)">
+          <!-- Plantilla personalizada -->
+          <span *ngIf="column.visible !== false && column.template" [ngTemplateOutlet]="templates[column.template]"
+            [ngTemplateOutletContext]="{column: column, i:i, item: item}"></span>
+
+          <!-- Enlace -->
+          <a *ngIf="column.visible !== false && !column.template && column.routerLink"
+            [routerLink]="[column.routerLink,getRealValue(item, column.routerLinkAttribute || defaultRouterLinkAttribute)]">{{getRealValue(item, column.attribute, column.shortUUID)}}
+          </a>
+
+          <!-- Imagen -->
+          <span *ngIf="column.visible !== false && !column.template && !column.routerLink && column.type === 'img'"
+            [ngTemplateOutlet]="defaultImgTemplate"
+            [ngTemplateOutletContext]="{column: column, i:i, item: item}"></span>
+
+          <!-- Fecha -->
+          <span *ngIf="column.visible !== false && !column.template && !column.routerLink && column.type === 'date'"
+            [ngTemplateOutlet]="defaultDateTemplate" [ngTemplateOutletContext]="{column: column, i:i, item: item}">
+          </span>
+
+          <!-- SI/NO -->
+          <span *ngIf="column.visible !== false && !column.template && !column.routerLink && column.type === 'bool'"
+            [ngTemplateOutlet]="defaultBoolTemplate" [ngTemplateOutletContext]="{column: column, i:i, item: item}">
+          </span>
+
+          <!-- JSON -->
+          <span *ngIf="column.visible !== false && !column.template && !column.routerLink && column.type === 'json'"
+            [ngTemplateOutlet]="defaultJsonTemplate" [ngTemplateOutletContext]="{column: column, i:i, item: item}">
+          </span>
+
+          <!-- Defecto (texto) -->
+          <span *ngIf="column.visible !== false && column.attribute !== 'cbColumn' && !column.template && !column.routerLink
+            && column.type !== 'date' && column.type !== 'img' && column.type !== 'bool' && column.type !== 'json'"
+            [ngTemplateOutlet]="defaultTextTemplate" [ngTemplateOutletContext]="{column: column, i:i, item: item}">
+          </span>
+        </td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="items?.length === 0">
+      <tr>
+        <td [colSpan]="columns.length">{{msgEmpty}}</td>
+      </tr>
+    </tbody>
+
+    <tfoot *ngIf="tfoot">
+      <tr>
+        <td [attr.colspan]="columns.length">
+          <ng-container [ngTemplateOutlet]="tfoot"></ng-container>
+        </td>
+      </tr>
+
+    </tfoot>
+  </table>
+
+</div>

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { MenuItems } from './menu-items/menu-items';
 import { AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective } from './accordion';
 import { FormGeneralComponent } from './form-general/form-general.component';
+import { GenericDatatableComponent } from "./generic-datatable/generic-datatable.component";
 import { DemoMaterialModule } from '../demo-material-module';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -10,14 +11,16 @@ import { ReactiveFormsModule } from '@angular/forms';
     AccordionAnchorDirective,
     AccordionLinkDirective,
     AccordionDirective,
-    FormGeneralComponent
+    FormGeneralComponent,
+    GenericDatatableComponent
   ],
   imports:[DemoMaterialModule, ReactiveFormsModule , CommonModule],
   exports: [
     AccordionAnchorDirective,
     AccordionLinkDirective,
     AccordionDirective,
-    FormGeneralComponent
+    FormGeneralComponent,
+    GenericDatatableComponent
    ],
   providers: [ MenuItems ]
 })

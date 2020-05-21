@@ -9,6 +9,6 @@ export const DashboardRoutes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/home'
+    redirectTo: ''
   }
 ];

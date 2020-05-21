@@ -27,3 +27,5 @@ File: scss
 @import 'responsive';
 
 @import "../styles/icons/material-design-iconic-font/css/materialdesignicons.min.css";
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';

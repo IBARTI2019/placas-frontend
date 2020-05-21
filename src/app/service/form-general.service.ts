@@ -10,7 +10,7 @@ export class FormGeneralService {
   @Output() change: EventEmitter<boolean[]> = new EventEmitter();
   constructor() { }
 
-  onLine(): number{
+  onLine(): number {
     const pos = this.deviceConn;
     this.deviceConn++;
     this.subs.push(false);
@@ -21,7 +21,7 @@ export class FormGeneralService {
     this.subs[val] = false;
   }
 
-  getChilds(): boolean[]{
+  getChilds(): boolean[] {
     return this.subs;
   }
 
@@ -30,8 +30,8 @@ export class FormGeneralService {
     this.change.emit(this.subs);
   }
 
-  activateChilds(){
-    this.subs = this.subs.map((value: boolean) => (value)? value: true);
+  activateChilds() {
+    this.subs = this.subs.map((value: boolean) => (value) ? value : true);
     this.change.emit(this.subs);
   }
 }

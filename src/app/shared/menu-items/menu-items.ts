@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Item } from '../../interfaces/item-sidebar.interface';
 
-export interface Menu {
-  state: string;
-  name: string;
-  type: string;
-  icon: string;
-}
-
-const MENUITEMS = [
+const MENUITEMSOLDS = [
   { state: 'dashboard', name: 'Dashboard', type: 'link', icon: 'av_timer' },
   { state: 'button', type: 'link', name: 'Buttons', icon: 'crop_7_5' },
   { state: 'grid', type: 'link', name: 'Grid List', icon: 'view_comfy' },
@@ -52,9 +46,18 @@ const MENUITEMS = [
   }
 ];
 
+const NEWITEMS = [
+  { state: 'dashboard', name: 'Dashboard', type: 'link', icon: 'av_timer' },
+  { state: 'role', type: 'link', name: 'Rol', icon: 'person' },
+  { state: 'user', type: 'link', name: 'Usuario', icon: 'accessibility_new' },
+  { state: 'shared1', type: 'link', name: 'Shared 1', icon: 'bug_report' },
+  { state: 'shsred2', type: 'link', name: 'Shared 2', icon: 'bug_report' },
+  { state: 'onlyuser', type: 'link', name: 'Usuario comun', icon: 'visibility' }
+];
+
 @Injectable()
 export class MenuItems {
-  getMenuitem(): Menu[] {
-    return MENUITEMS;
+  getMenuitem(): Item[] {
+    return NEWITEMS;
   }
 }

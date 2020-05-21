@@ -21,10 +21,11 @@ export class FormGeneralComponent implements OnInit {
     private formGeneralService: FormGeneralService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     const params = {};
+    console.log(this.dataNe);
     this.dataNe.fields.forEach((field: string, i: number) => {
-      const proper = {};
+      const proper = {field};
       const arrV = [];
       if (this.dataNe.requires[i]) {
         arrV.push(Validators.required);
@@ -38,10 +39,12 @@ export class FormGeneralComponent implements OnInit {
           val = (this.dataNe.data[field]) ? this.dataNe.data[field] : '';
           arrV.push(Validators.email);
           break;
+        case 'text':
+          val = (this.dataNe.data[field]) ? this.dataNe.data[field] : '';
+          break;
         case 'password':
         default:
           val = (this.dataNe.data[field]) ? this.dataNe.data[field] : '';
-          break;
       }
       proper[field] = [val, arrV];
       Object.assign(params, proper);

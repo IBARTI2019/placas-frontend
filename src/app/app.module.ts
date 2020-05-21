@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { AppRoutes } from './app.routing';
 import { AppComponent } from './app.component';
@@ -20,6 +20,8 @@ import { SharedModule } from './shared/shared.module';
 import { SpinnerComponent } from './shared/spinner.component';
 import { LoginComponent } from './layouts/login/login.component';
 import { VerifyComponent } from './layouts/modals/verify/verify.component';
+import { RolecuComponent } from './layouts/modals/rolecu/rolecu.component';
+import { UsercuComponent } from './layouts/modals/usercu/usercu.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { VerifyComponent } from './layouts/modals/verify/verify.component';
     SpinnerComponent,
     AppSidebarComponent,
     LoginComponent,
-    VerifyComponent
+    VerifyComponent,
+    RolecuComponent,
+    UsercuComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +48,8 @@ import { VerifyComponent } from './layouts/modals/verify/verify.component';
     RouterModule.forRoot(AppRoutes)
   ],
   entryComponents: [
-    VerifyComponent
+    VerifyComponent,
+    RolecuComponent
   ],
   providers: [
     {

@@ -1,8 +1,11 @@
 <div fxLayout="row" fxLayoutAlign="space-between">
   <h2 mat-dialog-title>Ingrese código de verificación</h2>
-  <button mat-icon-button (click)="onNoClick()" color="warn">
+  <button mat-icon-button (click)="onNoClick(false)" color="warn">
     <mat-icon>closed</mat-icon>
   </button>
+</div>
+<div>
+  <h3 *ngIf="error">El codigo ingresado es incorrecto</h3>
 </div>
 <div mat-dialog-content>
   <app-form-general [dataNe]="dataToForm" (onResp)="respData($event)"></app-form-general>

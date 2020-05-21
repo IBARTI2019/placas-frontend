@@ -8,6 +8,7 @@ import { VerifyComponent } from '../../modals/verify/verify.component';
   styleUrls: []
 })
 export class AppHeaderComponent {
+  connected = false;
 
   constructor(
     private dialog: MatDialog
@@ -18,12 +19,31 @@ export class AppHeaderComponent {
   openDialog() {
     const dialogConfig: MatDialogConfig = {
       width: '30vw',
-      height: '30vh'
+      height: '30vh',
+      data: 'login'
     };
     const dialogRef = this.dialog.open(VerifyComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe((value) => {
-      console.log('Se cerró el modal');
+      if (value) {
+        this.connected = true;
+        localStorage.setItem('code', JSON.stringify(value));
+      }
+    });
+  }
+
+  logout() {
+    const dialogConfig: MatDialogConfig = {
+      width: '30vw',
+      height: '30vh',
+      data: 'logout'
+    };
+    const dialogRef = this.dialog.open(VerifyComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe((value) => {
+      if (value) {
+        this.connected = false;
+      }
     });
   }
 }

@@ -2,7 +2,8 @@
 <!-- ============================================================== -->
 <!-- Profile - style you can find in header.scss -->
 <!-- ============================================================== -->
-<button class=" m-r-20 hidden-sm-up" mat-raised-button (click)="openDialog()" color="warn">Ingreso a sistema</button>
+<button class=" m-r-20 hidden-sm-up" mat-raised-button (click)="(!connected) ? openDialog() : logout()"
+  color="warn">{{ (!connected) ? 'Ingreso al sistema' : 'Salir del sistema'}}</button>
 <button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5"> <img src="assets/images/users/1.jpg" alt="user" class="profile-pic"> </button>
 <mat-menu #profile="matMenu" class="mymegamenu">
     <button mat-menu-item>

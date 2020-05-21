@@ -12,7 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AccordionDirective,
     FormGeneralComponent
   ],
-  imports:[DemoMaterialModule, ReactiveFormsModule , CommonModule],
+  imports: [DemoMaterialModule, ReactiveFormsModule , CommonModule],
   exports: [
     AccordionAnchorDirective,
     AccordionLinkDirective,

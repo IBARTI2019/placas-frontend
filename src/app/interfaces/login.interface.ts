@@ -1,4 +1,4 @@
 export interface AuthenticateModel {
-  email: string;
-  password: string;
+  cod: string;
+  pass: string;
 }

@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { AppRoutes } from './app.routing';
 import { AppComponent } from './app.component';
@@ -22,6 +22,9 @@ import { LoginComponent } from './layouts/login/login.component';
 import { VerifyComponent } from './layouts/modals/verify/verify.component';
 import { RolecuComponent } from './layouts/modals/rolecu/rolecu.component';
 import { UsercuComponent } from './layouts/modals/usercu/usercu.component';
+import { HttpInterceptorService } from './service/http-interceptor.service';
+import { ErrorInterceptor } from './helpers/error.interceptor';
+
 
 @NgModule({
   declarations: [
@@ -54,8 +57,14 @@ import { UsercuComponent } from './layouts/modals/usercu/usercu.component';
   providers: [
     {
       provide: LocationStrategy,
-      useClass: PathLocationStrategy
-    }
+      useClass: PathLocationStrategy,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true // Cambiar a 'true' en caso de usar más de un Interceptor
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

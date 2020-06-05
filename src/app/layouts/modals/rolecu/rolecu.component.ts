@@ -13,10 +13,10 @@ export class RolecuComponent implements OnInit {
   private role = {};
   dataRole: GeneralForm = {
     data: {},
-    fields: ['descripcion'],
-    descriptions: ['Descripcion'],
-    types: ['text'],
-    requires: [true]
+    fields: ['descripcion', 'status'],
+    descriptions: ['Descripcion', 'Estatus'],
+    types: ['text', 'toggle'],
+    requires: [true, true]
   };
 
   constructor(
@@ -36,6 +36,7 @@ export class RolecuComponent implements OnInit {
     if (!valid) {
       return;
     }
+    console.log(this.role);
   }
 
   activeForEventFromService(dataR: object) {

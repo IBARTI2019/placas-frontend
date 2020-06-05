@@ -39,9 +39,10 @@ export class FormGeneralComponent implements OnInit {
           val = (this.dataNe.data[field]) ? this.dataNe.data[field] : '';
           arrV.push(Validators.email);
           break;
-        case 'text':
-          val = (this.dataNe.data[field]) ? this.dataNe.data[field] : '';
+        case 'toggle':
+          val = true;
           break;
+        case 'text':
         case 'password':
         default:
           val = (this.dataNe.data[field]) ? this.dataNe.data[field] : '';

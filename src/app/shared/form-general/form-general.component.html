@@ -1,8 +1,16 @@
 <div>
   <form [formGroup] = "formG">
-    <mat-form-field *ngFor="let field of dataNe.fields; let i=index">
+    <mat-form-field *ngFor="let field of dataNe.fields; let i=index"
+      [floatLabel]="(dataNe['types'][i] === 'toggle') ? 'always': ''"
+      [appearance]="(dataNe['types'][i] === 'toggle') ? 'none': ''">
       <mat-label>{{dataNe.descriptions[i]}}</mat-label>
-      <input matInput type="{{dataNe['types'][i]}}" [placeholder]="dataNe.descriptions[i]" [formControlName] = "field">
+      <input matInput *ngIf="dataNe['types'][i] !== 'toggle'; else toggle" type="{{dataNe['types'][i]}}" [placeholder]="dataNe.descriptions[i]" [formControlName]="field">
+      <ng-template #toggle>
+        <mat-slide-toggle #toggleAtt [formControlName]="field">
+          {{toggleAtt.checked ? 'Activo' : 'Inactivo'}}
+        </mat-slide-toggle>
+        <input matInput [hidden]="true">
+      </ng-template>
       <mat-error *ngIf="dataNe.types[i]==='email'">Correo Invalido</mat-error>
       <mat-error *ngIf="dataNe.requires[i] && formG.controls[field].getError('required')">Es requerido</mat-error>
     </mat-form-field>

@@ -11,10 +11,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  dataResps: AuthenticateModel;
+  dataResps: AuthenticateModel = {
+    cod: '',
+    pass: ''
+  };
   dataN1: GeneralForm = {
     data: {},
-    fields: ['email', 'password'],
+    fields: ['cod', 'pass'],
     descriptions: ['Email', 'Contraseña'],
     types: ['email', 'password'],
     requires: [true, true]
@@ -36,13 +39,18 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.authenticateService.authenticate(this.dataResps).subscribe((message: object) => {
-      console.log('Se hizo el submit, redirección...');
+      console.log('Se hizo el submit, redirección...', message);
+      if (!message['error']) {
+        this.router.navigateByUrl('/home');
+
+      }
     });
-    this.router.navigateByUrl('/home');
   }
 
   respData(dataR: object) {
     Object.assign(this.dataResps, dataR['data']);
+    console.log('DataResp: ', this.dataResps);
+    console.log('DataR: ', dataR['data']);
   }
 
 }

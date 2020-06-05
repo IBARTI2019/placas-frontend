@@ -3,6 +3,7 @@ import { FormGeneralService } from '../../../service/form-general.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DataRole } from '../../../interfaces/rolecu.interface';
 import { GeneralForm } from '../../../interfaces/general.interface';
+import { DataUser } from '../../../interfaces/user.interface';
 
 @Component({
   selector: 'app-usercu',
@@ -14,16 +15,16 @@ export class UsercuComponent implements OnInit {
   user: {};
   dataUser: GeneralForm = {
     data: {},
-    fields: ['descripcion'],
-    descriptions: ['Descripcion'],
-    types: ['text'],
+    fields: ['nombre', 'apellido', 'status'],
+    descriptions: ['Nombre', 'Apellido', 'Estatus'],
+    types: ['text', 'text', 'toggle'],
     requires: [true]
   };
 
   constructor(
     private formGeneralService: FormGeneralService,
     private matDialogRef: MatDialogRef<UsercuComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: DataRole
+    @Inject(MAT_DIALOG_DATA) private data: DataUser
   ) { }
 
   ngOnInit(): void {

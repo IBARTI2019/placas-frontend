@@ -14,7 +14,7 @@ import { AuthenticateModel } from '../interfaces/login.interface';
   providedIn: 'root'
 })
 export class AuthenticateService {
-  private apiUrl = `${environment.apiUrl}/authenticate`;
+  private apiUrl = `${environment.apiUrl}/usuario/`;
 
   constructor(
     private http: HttpClient
@@ -25,7 +25,7 @@ export class AuthenticateService {
   // -----------------------> Post's <------------------------- //
 
   authenticate (data: AuthenticateModel): Observable<object> {
-    return this.http.post<object>(`${this.apiUrl}`, data).pipe(
+    return this.http.post<object>(`${this.apiUrl}login`, data).pipe(
       map((message: object) => {
         return message;
       }),
@@ -34,7 +34,7 @@ export class AuthenticateService {
   }
 
   verifyCode(code: string): Observable<object> {
-    return this.http.post<object>(`${this.apiUrl}/verify`, code).pipe(
+    return this.http.post<object>(`${this.apiUrl}verify`, code).pipe(
       map((message: object) => {
         return message;
       }),

@@ -23,8 +23,10 @@ export class PermissionsService {
   }
 
   async setPermission() {
-    const otherPermission = JSON.parse(await localStorage.getItem('permissions'));
+    let otherPermission = await JSON.parse(await localStorage.getItem('permissions'));
     if (otherPermission && otherPermission.length > 0) {
+      otherPermission = otherPermission.map((currentPermission) => currentPermission['permiso']);
+      console.log('Permisos Obtenidos del LocalStorgage', otherPermission);
       if (otherPermission[0] === 'All') {
         this.modulesAllowed = this.menuSidebar.getMenuitem();
       } else {

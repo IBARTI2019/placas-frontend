@@ -15,7 +15,7 @@ const PERMISOSDEOTROUSUARIO = ['Usuario comun'];
   styleUrls: ['./verify.component.css']
 })
 export class VerifyComponent implements OnInit {
-  verificationCode = '';
+  verificationCode = { cod: ''};
   dataToForm: GeneralForm = {
     data: {},
     fields: ['code'],
@@ -43,26 +43,26 @@ export class VerifyComponent implements OnInit {
     if (!valid) {
       return;
     }
-
+    console.log('Qlqlqlqlqlq');
     if (this.data === 'login') {
-      // this.authenticateService.verifyCode(this.verificationCode).subscribe((message: object) => {
-      //   console.log('Se hizo el submit, redirección...', this.verificationCode);
-      //   this.onNoClick(this.verificationCode);
-      // });
-      if (this.verificationCode === 'HSibrian') {
-        await localStorage.setItem('permissions', JSON.stringify(PERMISOSDEHEMNY));
-      } else {
-        await localStorage.setItem('permissions', JSON.stringify(PERMISOSDEOTROUSUARIO));
-      }
-      this.onNoClick(this.verificationCode);
-      this.permissionsService.setPermission();
+      this.authenticateService.verifyCode(this.verificationCode).subscribe(async (message: object) => {
+        console.log('Se hizo el submit, redirección...', message);
+        if (!message['error']) {
+          await localStorage.setItem('permissions', JSON.stringify(message['data']['permisos']));
+          await localStorage.setItem('code', JSON.stringify(message['data']['codigo_acceso']));
+          this.onNoClick(this.verificationCode.cod);
+          await this.permissionsService.setPermission();
+        }
+      });
     } else {
       const code = JSON.parse(await localStorage.getItem('code'));
-      if (code === this.verificationCode) {
+      console.log('Codigo de Verificacion que está en el LocalStorage: ', code, this.verificationCode);
+      if (code === this.verificationCode.cod) {
         this.error = false;
         this.router.navigateByUrl('/home');
         await localStorage.removeItem('permissions');
-        this.permissionsService.setPermission();
+        await localStorage.removeItem('code');
+        await this.permissionsService.setPermission();
         this.onNoClick(true);
       } else {
         this.error = true;
@@ -75,7 +75,7 @@ export class VerifyComponent implements OnInit {
   }
 
   respData(data: object) {
-    this.verificationCode = data['data']['code'];
+    this.verificationCode.cod = data['data']['code'];
   }
 
 }

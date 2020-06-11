@@ -33,8 +33,17 @@ export class AuthenticateService {
     );
   }
 
-  verifyCode(code: string): Observable<object> {
-    return this.http.post<object>(`${this.apiUrl}verify`, code).pipe(
+  logout(data): Observable<object> {
+    return this.http.post<object>(`${this.apiUrl}logout`, data).pipe(
+      map((message: object) => {
+        return message;
+      }),
+      catchError((error: HttpErrorResponse) => this.handleError(error))
+    );
+  }
+
+  verifyCode(code: { cod: string }): Observable<object> {
+    return this.http.post<object>(`${this.apiUrl}validate`, code).pipe(
       map((message: object) => {
         return message;
       }),

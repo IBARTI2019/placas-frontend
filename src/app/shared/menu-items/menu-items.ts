@@ -48,8 +48,13 @@ const MENUITEMSOLDS = [
 
 const NEWITEMS = [
   { state: 'dashboard', name: 'Dashboard', type: 'link', icon: 'av_timer' },
-  { state: 'role', type: 'link', name: 'Rol', icon: 'person' },
+  { state: 'role', type: 'link', name: 'Roll', icon: 'person' },
   { state: 'user', type: 'link', name: 'Usuario', icon: 'accessibility_new' },
+  { state: 'autos', type: 'link', name: 'Autos', icon: '' },
+  { state: 'person', type: 'link', name: 'Personas', icon: 'person' },
+  { state: 'ingreso-temporal', type: 'link', name: 'Ingreso Temporal', icon: '' },
+  { state: 'locations', type: 'link', name: 'Ubicaiones', icon: '' },
+  { state: 'access-points', type: 'link', name: 'Puntos de Acceso', icon: '' },
   { state: 'shared1', type: 'link', name: 'Shared 1', icon: 'bug_report' },
   { state: 'shsred2', type: 'link', name: 'Shared 2', icon: 'bug_report' },
   { state: 'onlyuser', type: 'link', name: 'Usuario comun', icon: 'visibility' }

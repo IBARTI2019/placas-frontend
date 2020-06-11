@@ -38,11 +38,11 @@ export class LoginComponent implements OnInit {
     if (!valid) {
       return;
     }
-    this.authenticateService.authenticate(this.dataResps).subscribe((message: object) => {
+    this.authenticateService.authenticate(this.dataResps).subscribe(async (message: object) => {
       console.log('Se hizo el submit, redirección...', message);
       if (!message['error']) {
+        await localStorage.setItem('DB_HEADER', JSON.stringify({ db: message['data']['db'] }));
         this.router.navigateByUrl('/home');
-
       }
     });
   }
